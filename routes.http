@@ -1,0 +1,37 @@
+# @name get-prompts
+GET http://localhost:3333/prompts
+
+###
+
+# @name upload
+POST http://localhost:3333/videos
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="sample.mp3"
+Content-Type: audio/mpeg
+
+< ./sample.mp3
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+# @name create-transcription
+POST http://localhost:3333/videos/0c708f52-a3bd-4a3b-91d5-6e5e3b60a67c/transcription
+Content-Type: application/json
+
+{
+  "prompt": "dating, quote, positions, sexuality, culture8"
+}
+
+###
+
+# @name generate-ai-completion
+POST http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+  "videoId": "0c708f52-a3bd-4a3b-91d5-6e5e3b60a67c",
+  "temperature": 0.5,
+  "template": "Generate an summary excerpt about this video: '''{transcription}'''"
+}
